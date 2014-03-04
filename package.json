@@ -21,5 +21,8 @@
     "test": "node_modules/mocha/bin/mocha test/test.js -R spec",
     "cover": "istanbul cover _mocha -- test/test.js -R spec",
     "minify": "browserify -e editor3.js | uglifyjs > editor3.min.js"
+  },
+  "dependencies": {
+    "three": "~0.58.10"
   }
 }
