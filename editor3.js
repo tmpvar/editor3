@@ -32,7 +32,7 @@ function Editor3(selector, scene, renderer, camera) {
       var handler = modeManager.handle.bind(modeManager, target);
       bound.push([name, handler]);
 
-      editor.container.addEventListener(name, handler);
+      document.addEventListener(name, handler);
     });
 
   };
@@ -42,7 +42,7 @@ function Editor3(selector, scene, renderer, camera) {
 
     while (bound && bound.length) {
       var binding = bound.pop();
-      editor.container.removeEventListener(binding[0], binding[1]);
+      document.removeEventListener(binding[0], binding[1]);
     }
   };
 
