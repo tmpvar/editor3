@@ -22,7 +22,8 @@
     "cover": "istanbul cover _mocha -- test/test.js -R spec",
     "minify": "browserify -e editor3.js | uglifyjs > editor3.min.js"
   },
-  "dependencies": {
+  "peerDependencies" : {
+    "modemanager": "*",
     "three": "~0.58.10"
   }
 }

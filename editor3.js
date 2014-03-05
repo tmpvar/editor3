@@ -1,10 +1,51 @@
 if (typeof require !== 'undefined') {
   var THREE = require('three');
+  var ModeManager = require('modemanager');
 }
 
-
-
 function Editor3(selector, scene, renderer, camera) {
+  var modeManager = this.modeManager = new ModeManager();
+  var editor = this, animationRequest = null, bound = [];
+  this.container = document.querySelector(selector)
+
+  modeManager.activate = function() {
+    editor.renderer.domElement.focus();
+
+    // Start rendering
+    animationRequest = requestAnimationFrame(function tick(time) {
+      editor.render(time);
+      requestAnimationFrame(tick);
+    });
+
+    // bind events
+    [
+      'mousedown', 'mousemove', 'mouseup',
+      'contextmenu', 'mousewheel', ['DOMMouseScroll', 'mousewheel'],
+      'keydown', 'keyup'
+    ].forEach(function(name) {
+
+      var target = name;
+      if (Array.isArray(name)) {
+        target = name[1];
+        name = name[0];
+      }
+
+      var handler = modeManager.handle.bind(modeManager, target);
+      bound.push([name, handler]);
+
+      editor.container.addEventListener(name, handler);
+    });
+
+  };
+
+  modeManager.deactivate = function() {
+    animationRequest && cancelAnimationFrame(animationRequest)
+
+    while (bound && bound.length) {
+      var binding = bound.pop();
+      editor.container.removeEventListener(binding[0], binding[1]);
+    }
+  };
 
   this.updateSteps = [];
 
@@ -12,7 +53,7 @@ function Editor3(selector, scene, renderer, camera) {
 
   this.camera = new THREE.PerspectiveCamera(70, 4/3, 1, 1000);
   this.camera.position.set( 0, 10, 40 );
-  this.scene.add(camera);
+  this.scene.add(this.camera);
 
   this.renderer = renderer || new THREE.WebGLRenderer({
     antialias : true,
@@ -24,7 +65,7 @@ function Editor3(selector, scene, renderer, camera) {
   light.position = this.camera.position;
   this.scene.add( light );
 
-  this.container = document.querySelector(selector)
+
   this.container.appendChild( this.renderer.domElement );
 
   this.resize();
