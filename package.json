@@ -23,7 +23,6 @@
     "minify": "browserify -e editor3.js | uglifyjs > editor3.min.js"
   },
   "peerDependencies" : {
-    "modemanager": "*",
-    "three": "~0.58.10"
+    "modemanager": "*"
   }
 }

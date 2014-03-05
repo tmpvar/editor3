@@ -1,5 +1,4 @@
 if (typeof require !== 'undefined') {
-  var THREE = require('three');
   var ModeManager = require('modemanager');
 }
 
