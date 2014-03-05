@@ -2,10 +2,11 @@ if (typeof require !== 'undefined') {
   var ModeManager = require('modemanager');
 }
 
-function Editor3(selector, scene, renderer, camera) {
+function Editor3(selector, parentSelector, scene, renderer, camera) {
   var modeManager = this.modeManager = new ModeManager();
   var editor = this, animationRequest = null, bound = [];
   this.container = document.querySelector(selector)
+  this.parentElement = document.querySelector(parentSelector)
 
   modeManager.activate = function() {
     editor.renderer.domElement.focus();
@@ -34,7 +35,6 @@ function Editor3(selector, scene, renderer, camera) {
 
       document.addEventListener(name, handler);
     });
-
   };
 
   modeManager.deactivate = function() {
