@@ -61,6 +61,8 @@ function Editor3(selector, scene, renderer, camera) {
     preserveDrawingBuffer: true
   });
 
+  this.camera.canvas = this.renderer.domElement;
+
   var light = new THREE.HemisphereLight( 0xffffff, 0x222225, .6);
   light.position = this.camera.position;
   this.scene.add( light );
@@ -121,7 +123,9 @@ function Editor3Mesh(geometry, material) {
   this.seenVerts = {};
 };
 
+THREE.Mesh.prototype.constructor = THREE.Mesh;
 Editor3Mesh.prototype = Object.create(THREE.Mesh.prototype);
+Editor3Mesh.prototype.constructor = THREE.Editor3Mesh;
 
 Editor3Mesh.prototype.defaultMaterial = new THREE.MeshPhongMaterial({
   color: 0xffffff,
@@ -132,6 +136,9 @@ Editor3Mesh.prototype.defaultMaterial = new THREE.MeshPhongMaterial({
 });
 
 Editor3Mesh.prototype.addFace = function(verts, normal) {
+  if (!verts) {
+    return;
+  }
   var seen = this.seenVerts;
   var geometry = this.geometry;
 
