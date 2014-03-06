@@ -131,6 +131,8 @@ Editor3Mesh.prototype.defaultMaterial = new THREE.MeshPhongMaterial({
   emissive: 0x020202,
   ambient: 0x111111,
   shading: THREE.SmoothShading,
+  transparent: true,
+  opacity: 1,
   shinyness: 100
 });
 
