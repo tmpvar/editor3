@@ -133,8 +133,21 @@ Editor3Mesh.prototype.defaultMaterial = new THREE.MeshPhongMaterial({
   shading: THREE.SmoothShading,
   transparent: true,
   opacity: 1,
-  shinyness: 100
+  shinyness: 100,
+  wireframe: false
 });
+
+Editor3Mesh.prototype.restOnOrigin = function() {
+
+  this.geometry.computeBoundingBox();
+
+  var bounds = this.geometry.boundingBox;
+  var d = -bounds.min.z;
+
+  this.position.z += d;
+  bounds.min.z += d;
+  bounds.max.z += d;
+};
 
 Editor3Mesh.prototype.addFace = function(verts, normal) {
   if (!verts) {
@@ -173,6 +186,7 @@ Editor3Mesh.prototype.addFace = function(verts, normal) {
 };
 
 Editor3Mesh.prototype.finalize = function() {
+  this.geometry.mergeVertices();
   this.geometry.computeBoundingBox();
   return this;
 };
