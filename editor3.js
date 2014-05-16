@@ -149,6 +149,44 @@ Editor3Mesh.prototype.restOnOrigin = function() {
   bounds.max.z += d;
 };
 
+
+
+Editor3Mesh.prototype.boundingBox = function(position) {
+  var max = [-Infinity, -Infinity, -Infinity];
+  var min = [Infinity, Infinity, Infinity];
+
+  var verts = this.geometry.vertices;
+  for (var i = 0; i<verts.length; i++) {
+    var v = verts[i];
+
+    if (v.x > max[0]) {
+      max[0] = v.x
+    }
+
+    if (v.y > max[1]) {
+      max[1] = v.y
+    }
+
+    if (v.z > max[2]) {
+      max[2] = v.z
+    }
+
+    if (v.x < min[0]) {
+      min[0] = v.x
+    }
+
+    if (v.y < min[1]) {
+      min[1] = v.y
+    }
+
+    if (v.z < min[2]) {
+      min[2] = v.z
+    }
+  }
+
+  return [min, max];
+};
+
 Editor3Mesh.prototype.addFace = function(verts, normal) {
   if (!verts) {
     return;
@@ -188,6 +226,7 @@ Editor3Mesh.prototype.addFace = function(verts, normal) {
 Editor3Mesh.prototype.finalize = function() {
   this.geometry.mergeVertices();
   this.geometry.computeBoundingBox();
+  this.geometry.computeFaceNormals();
   return this;
 };
 
