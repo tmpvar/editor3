@@ -151,36 +151,43 @@ Editor3Mesh.prototype.restOnOrigin = function() {
 
 
 
-Editor3Mesh.prototype.boundingBox = function(position) {
+Editor3Mesh.prototype.boundingBox = function() {
   var max = [-Infinity, -Infinity, -Infinity];
   var min = [Infinity, Infinity, Infinity];
+
+  // treat position as the center of the mesh
+  var pos = this.position;
 
   var verts = this.geometry.vertices;
   for (var i = 0; i<verts.length; i++) {
     var v = verts[i];
+    var x = v.x - pos.x;
+    var y = v.y - pos.y;
+    var z = v.z - pos.z;
 
-    if (v.x > max[0]) {
-      max[0] = v.x
+
+    if (x > max[0]) {
+      max[0] = x
     }
 
-    if (v.y > max[1]) {
-      max[1] = v.y
+    if (y > max[1]) {
+      max[1] = y
     }
 
-    if (v.z > max[2]) {
-      max[2] = v.z
+    if (z > max[2]) {
+      max[2] = z
     }
 
-    if (v.x < min[0]) {
-      min[0] = v.x
+    if (x < min[0]) {
+      min[0] = x
     }
 
-    if (v.y < min[1]) {
-      min[1] = v.y
+    if (y < min[1]) {
+      min[1] = y
     }
 
-    if (v.z < min[2]) {
-      min[2] = v.z
+    if (z < min[2]) {
+      min[2] = z
     }
   }
 
