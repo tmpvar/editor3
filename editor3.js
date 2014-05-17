@@ -101,8 +101,8 @@ Editor3.prototype.render = function(t) {
   }
 };
 
-Editor3.prototype.createMesh = function() {
-  return new Editor3.Mesh();
+Editor3.prototype.createMesh = function(geometry, material) {
+  return new Editor3.Mesh(geometry, material);
 };
 
 Editor3.prototype.addMesh = function(mesh) {
